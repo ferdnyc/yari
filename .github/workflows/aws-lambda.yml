@@ -22,42 +22,20 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: yarn
+          cache: npm
           cache-dependency-path: |
-            deployer/aws-lambda/content-origin-request/yarn.lock
-            deployer/aws-lambda/content-origin-response/yarn.lock
-            deployer/aws-lambda/tests/yarn.lock
+            **/package-lock.json
             libs/**/*.js
 
-      # Note!
-      # We need to install all node modules in each of the 3 directories.
-      # 1. content-origin-request
-      # 2. content-origin-response
-      # 3. tests
-      #
-      # If we don't do this, you can't do things like:
-      #
-      #    const { handler } = require("../content-origin-request");
-      #
-      # The reason `yarn install` won't pick up the sub-dependencies
-      # is because these 3 directories don't share a common root.
-
-      - name: Install all yarn packages
-        working-directory: deployer/aws-lambda/content-origin-request
-        run: yarn --frozen-lockfile
-
-      - name: Install all yarn packages
-        working-directory: deployer/aws-lambda/content-origin-response
-        run: yarn --frozen-lockfile
-
-      - name: Install all yarn packages
-        working-directory: deployer/aws-lambda/tests
-        run: yarn --frozen-lockfile
+      - name: Install all npm packages
+        run: |
+          npm clean-install
+          npm run clean-install:all
 
       - name: Run test server
         working-directory: deployer/aws-lambda/tests
         run: |
-          yarn serve > /tmp/stdout.log 2> /tmp/stderr.log &
+          npm run serve > /tmp/stdout.log 2> /tmp/stderr.log &
 
       - name: Check that the server started
         run: curl --retry-connrefused --retry 5 -I http://localhost:7000/ping
@@ -70,7 +48,7 @@ jobs:
       - name: End-to-end test
         working-directory: deployer/aws-lambda/tests
         run: |
-          yarn test-server
+          npm run test-server
 
       - name: Debug any server outputs
         if: failure()
