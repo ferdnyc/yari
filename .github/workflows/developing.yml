@@ -30,7 +30,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/') }}-${{ hashFiles('.github/workflows/developing.yml') }}
 
       - name: Install all npm packages
-        run: npm run ci:all
+        run: npm ci
 
       - name: Setup kernel for react native, increase watchers
         run: |
