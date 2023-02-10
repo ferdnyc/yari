@@ -27,10 +27,10 @@ jobs:
         with:
           path: |
             node_modules
-          key: ${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/workflows/developing.yml') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/') }}-${{ hashFiles('.github/workflows/developing.yml') }}
 
       - name: Install all npm packages
-        run: npm ci
+        run: npm ci:all
 
       - name: Setup kernel for react native, increase watchers
         run: |

@@ -23,14 +23,10 @@ jobs:
         with:
           node-version: 18
           cache: npm
-          cache-dependency-path: |
-            **/package-lock.json
-            libs/**/*.js
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Install all npm packages
-        run: |
-          npm clean-install
-          npm run clean-install:all
+        run: npm run ci:all
 
       - name: Run test server
         working-directory: deployer/aws-lambda/tests
