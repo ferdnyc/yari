@@ -11,6 +11,12 @@
     "yari-server": "server/index.js",
     "yari-tool": "tool/cli.js"
   },
+  "workspaces": [
+    "./client",
+    "./client/pwa",
+    "./deployer/aws-lambda/*",
+    "./libs/*"
+  ],
   "scripts": {
     "analyze": "source-map-explorer 'client/build/static/js/*.js'",
     "analyze:css": "source-map-explorer 'client/build/static/css/*.css'",
@@ -247,11 +253,5 @@
     "stylelint-a11y": {
       "stylelint": "$stylelint"
     }
-  },
-  "workspaces": [
-    "./client",
-    "./client/pwa",
-    "./deployer/aws-lambda/*",
-    "./libs/*"
-  ]
+  }
 }
