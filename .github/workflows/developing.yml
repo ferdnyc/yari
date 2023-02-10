@@ -20,14 +20,7 @@ jobs:
         with:
           node-version: 18
           cache: npm
-
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        id: cached-node_modules
-        with:
-          path: |
-            node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/') }}-${{ hashFiles('.github/workflows/developing.yml') }}
+          cache-dependency-path: "**/package-lock.json"
 
       - name: Install all npm packages
         run: npm ci
